@@ -28,10 +28,7 @@ hls-audio-transcode/
 ```
 
 The launcher will prompt you for:
-1. **Staged directory** - Host path containing input files organized in subdirectories:
-   - `production/` - Production track WAVs
-   - `live-performances/` - Live recording WAVs
-   - `mixes/` - DJ mix WAVs
+1. **Staged directory** - Host path containing input audio files (WAV, FLAC, MP3, etc.)
 2. **Processed directory** - Host path where transcoded HLS output will be written
 
 **Directory prompts support tab-completion** for easy navigation.
@@ -43,12 +40,12 @@ The launcher will prompt you for:
 Source files should use **kebab-case** naming (lowercase words separated by hyphens):
 
 ```
-creeping-insolence.wav      -> "Creeping Insolence"
-rude-introduction.wav       -> "Rude Introduction"
-my-new-track.wav            -> "My New Track"
+creeping-insolence.wav      -> creeping-insolence/
+rude-introduction.wav       -> rude-introduction/
+my-new-track.wav            -> my-new-track/
 ```
 
-The folder name becomes the track identifier and is transformed to Title Case for display in the UI.
+The filename becomes the track directory identifier in the output structure.
 
 ### Container Mounts
 
@@ -60,29 +57,27 @@ The folder name becomes the track identifier and is transformed to Title Case fo
 Each file is transcoded to 3 bitrate tiers (64k, 128k, 192k AAC) with adaptive bitrate master playlist:
 
 ```
-/processed/{category}/{track-name}/
+/processed/{track-name}/
 ├── master.m3u8      # Adaptive bitrate playlist
 ├── 64k/stream.m3u8  # Low bandwidth
 ├── 128k/stream.m3u8 # Medium bandwidth
 └── 192k/stream.m3u8 # High bandwidth
 ```
 
-HLS content is organized by category:
+Example output structure:
 
 ```
 /processed/
-  production/           # Produced tracks
-    {track}/
-      master.m3u8
-      64k/ 128k/ 192k/
-  live-performances/    # Live recordings
-    {performance}/
-      master.m3u8
-      64k/ 128k/ 192k/
-  mixes/                # DJ mixes
-    {mix}/
-      master.m3u8
-      64k/ 128k/ 192k/
+  creeping-insolence/
+    master.m3u8
+    64k/stream.m3u8
+    128k/stream.m3u8
+    192k/stream.m3u8
+  rude-introduction/
+    master.m3u8
+    64k/stream.m3u8
+    128k/stream.m3u8
+    192k/stream.m3u8
 ```
 
 ## Container Standards

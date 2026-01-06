@@ -3,7 +3,7 @@
 # HLS Transcoder
 #
 # Expects:
-#   /staged - Input directory with subdirectories: production/, live-performances/, mixes/
+#   /staged - Input directory containing audio files
 #   /processed - Output directory for transcoded HLS content
 
 STAGED_ROOT="/staged"
@@ -15,7 +15,6 @@ normalize_name() {
 
 transcode_file() {
     input_file="$1"
-    output_category="$2"
 
     [ -f "$input_file" ] || return 1
 
@@ -23,7 +22,7 @@ transcode_file() {
     name="${filename%.*}"
     name=$(normalize_name "$name")
 
-    track_dir="${OUTPUT_ROOT}/${output_category}/${name}"
+    track_dir="${OUTPUT_ROOT}/${name}"
 
     mkdir -p "${track_dir}/64k" "${track_dir}/128k" "${track_dir}/192k"
 
@@ -57,22 +56,7 @@ transcode_file() {
 EOF
 }
 
-process_category() {
-    category="$1"
-    staged_dir="${STAGED_ROOT}/${category}"
-
-    [ ! -d "$staged_dir" ] && return 0
-
-    for input_file in "$staged_dir"/*; do
-        [ -f "$input_file" ] || continue
-        transcode_file "$input_file" "$category"
-    done
-}
-
-mkdir -p "${STAGED_ROOT}/production"
-mkdir -p "${STAGED_ROOT}/live-performances"
-mkdir -p "${STAGED_ROOT}/mixes"
-
-process_category "production"
-process_category "live-performances"
-process_category "mixes"
+for input_file in "$STAGED_ROOT"/*; do
+    [ -f "$input_file" ] || continue
+    transcode_file "$input_file"
+done

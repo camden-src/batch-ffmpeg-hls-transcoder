@@ -11,7 +11,7 @@ if [[ "$1" == "--force-rebuild" ]]; then
 fi
 
 if [[ "$FORCE_REBUILD" == true ]] || ! podman image exists "$IMAGE_NAME"; then
-    podman build -t "$IMAGE_NAME" -f "$SCRIPT_DIR/Containerfile" "$SCRIPT_DIR"
+    podman build -t "$IMAGE_NAME" -f "$WORK_DIR/Containerfile" "$WORK_DIR"
 fi
 
 prompt_directory() {

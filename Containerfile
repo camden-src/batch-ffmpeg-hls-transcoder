@@ -8,5 +8,4 @@ RUN addgroup -g 1000 developer && adduser -u 1000 -G developer -D developer
 USER developer
 WORKDIR /workspace
 
-ENTRYPOINT ["/bin/sh"] 
-# , "/workspace/generate-hls.sh"]
+ENTRYPOINT ["/workspace/generate-hls.sh"]
