@@ -27,19 +27,19 @@ transcode_file() {
     mkdir -p "${track_dir}/64k" "${track_dir}/128k" "${track_dir}/192k"
 
     ffmpeg -y -i "$input_file" \
-        -codec:a aac -b:a 64k -ac 2 -ar 44100 \
+        -codec:a libmp3lame -b:a 64k -ac 2 -ar 44100 \
         -f hls -hls_time 10 -hls_list_size 0 \
         -hls_segment_filename "${track_dir}/64k/seg_%03d.ts" \
         "${track_dir}/64k/stream.m3u8"
 
     ffmpeg -y -i "$input_file" \
-        -codec:a aac -b:a 128k -ac 2 -ar 44100 \
+        -codec:a libmp3lame -b:a 128k -ac 2 -ar 44100 \
         -f hls -hls_time 10 -hls_list_size 0 \
         -hls_segment_filename "${track_dir}/128k/seg_%03d.ts" \
         "${track_dir}/128k/stream.m3u8"
 
     ffmpeg -y -i "$input_file" \
-        -codec:a aac -b:a 192k -ac 2 -ar 44100 \
+        -codec:a libmp3lame -b:a 192k -ac 2 -ar 44100 \
         -f hls -hls_time 10 -hls_list_size 0 \
         -hls_segment_filename "${track_dir}/192k/seg_%03d.ts" \
         "${track_dir}/192k/stream.m3u8"
@@ -47,11 +47,11 @@ transcode_file() {
     cat > "${track_dir}/master.m3u8" << EOF
 #EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-STREAM-INF:BANDWIDTH=64000,CODECS="mp4a.40.2"
+#EXT-X-STREAM-INF:BANDWIDTH=64000,CODECS="mp4a.40.34"
 64k/stream.m3u8
-#EXT-X-STREAM-INF:BANDWIDTH=128000,CODECS="mp4a.40.2"
+#EXT-X-STREAM-INF:BANDWIDTH=128000,CODECS="mp4a.40.34"
 128k/stream.m3u8
-#EXT-X-STREAM-INF:BANDWIDTH=192000,CODECS="mp4a.40.2"
+#EXT-X-STREAM-INF:BANDWIDTH=192000,CODECS="mp4a.40.34"
 192k/stream.m3u8
 EOF
 }
