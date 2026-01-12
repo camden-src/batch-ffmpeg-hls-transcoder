@@ -54,7 +54,7 @@ The filename becomes the track directory identifier in the output structure.
 
 ### Output
 
-Each file is transcoded to 3 bitrate tiers (64k, 128k, 192k AAC) with adaptive bitrate master playlist:
+Each file is transcoded to 3 bitrate tiers (64k, 128k, 192k MP3) with adaptive bitrate master playlist:
 
 ```
 /processed/{track-name}/
