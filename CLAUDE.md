@@ -47,6 +47,22 @@ my-new-track.wav            -> my-new-track/
 
 The filename becomes the track directory identifier in the output structure.
 
+### Metadata Requirements
+
+All source audio files **must** have the following metadata tags:
+
+- **artist** - Track artist name
+- **title** - Track title
+
+The transcoder validates these tags before processing. Files missing required metadata will be rejected with an error message.
+
+During transcoding, the following metadata is automatically added:
+
+- **publisher** - "Noise2Signal LLC"
+- **copyright** - "Copyright {YEAR} Noise2Signal LLC" (current year inferred)
+
+All existing metadata from the source file is preserved in the transcoded output.
+
 ### Container Mounts
 
 - `/staged` - Input directory (read-write)
