@@ -1,0 +1,57 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+This project uses the following third-party software:
+
+================================================================================
+FFmpeg
+================================================================================
+
+This software uses FFmpeg (https://ffmpeg.org/), a complete, cross-platform
+solution to record, convert and stream audio and video.
+
+FFmpeg is licensed under the GNU Lesser General Public License (LGPL) version
+2.1 or later. The version used in this project is provided by Alpine Linux
+via the official Alpine package repository.
+
+License: LGPL v2.1+
+Project: https://ffmpeg.org/
+Source Code: https://ffmpeg.org/download.html
+Alpine Package Source: https://git.alpinelinux.org/aports/
+
+FFmpeg License Notice:
+----------------------
+FFmpeg is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option)
+any later version.
+
+FFmpeg is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for
+more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with FFmpeg; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+
+Full LGPL 2.1 License Text: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+Obtaining FFmpeg Source Code:
+------------------------------
+The complete source code for the version of FFmpeg used in this project can
+be obtained from:
+
+1. Official FFmpeg releases: https://ffmpeg.org/download.html
+2. Alpine Linux package sources: https://git.alpinelinux.org/aports/
+3. Alpine package information: Run `apk info -a ffmpeg` in Alpine container
+
+To extract the specific version used in the container:
+```bash
+podman run --rm alpine:3.21 sh -c "apk add --no-cache ffmpeg && ffmpeg -version"
+```
+
+Note: This project uses FFmpeg as an external binary executable, not as a
+linked library. The wrapper scripts in this repository (launch-transcode.sh,
+generate-hls.sh) are licensed separately under the MIT License (see LICENSE).
+
+================================================================================
