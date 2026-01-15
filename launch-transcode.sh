@@ -6,9 +6,29 @@ IMAGE_NAME="hls-transcoder"
 WORK_DIR="$(git rev-parse --show-toplevel)"
 
 FORCE_REBUILD=false
-if [[ "$1" == "--force-rebuild" ]]; then
-    FORCE_REBUILD=true
-fi
+CPU_OPTS=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --force-rebuild)
+            FORCE_REBUILD=true
+            shift
+            ;;
+        --cpus)
+            CPU_OPTS="--cpus=$2"
+            shift 2
+            ;;
+        --cpuset-cpus)
+            CPU_OPTS="--cpuset-cpus=$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            echo "Usage: $0 [--force-rebuild] [--cpus N] [--cpuset-cpus 0-3]" >&2
+            exit 1
+            ;;
+    esac
+done
 
 if [[ "$FORCE_REBUILD" == true ]] || ! podman image exists "$IMAGE_NAME"; then
     podman build -t "$IMAGE_NAME" -f "$WORK_DIR/Containerfile" "$WORK_DIR"
@@ -59,6 +79,7 @@ fi
 podman run -it \
     --name "$CONTAINER_NAME" \
     --userns=keep-id \
+    $CPU_OPTS \
     -v "$WORK_DIR:/workspace" \
     -v "$STAGED_DIR:/staged" \
     -v "$PROCESSED_DIR:/processed" \
